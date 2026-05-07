@@ -4,77 +4,362 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Child Safety Standards</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --glass: rgba(255, 255, 255, 0.12);
+      --border: rgba(255, 255, 255, 0.18);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.68);
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      line-height: 1.6;
-      color: #222;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+        "Segoe UI", sans-serif;
+      color: var(--text);
+      overflow-x: hidden;
+
+      background:
+        radial-gradient(circle at top left, #7b61ff 0%, transparent 35%),
+        radial-gradient(circle at bottom right, #00c6ff 0%, transparent 30%),
+        radial-gradient(circle at center, #ff6ec7 0%, transparent 25%),
+        linear-gradient(135deg, #0a0a0f, #101624 50%, #0a0a0f);
+    }
+
+    .blur {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.35;
+      z-index: 0;
+      animation: float 12s ease-in-out infinite alternate;
+    }
+
+    .blur.one {
+      background: #7b61ff;
+      top: -120px;
+      left: -100px;
+    }
+
+    .blur.two {
+      background: #00c6ff;
+      bottom: -120px;
+      right: -80px;
+      animation-delay: 3s;
+    }
+
+    @keyframes float {
+      from {
+        transform: translateY(0px) translateX(0px);
+      }
+      to {
+        transform: translateY(30px) translateX(20px);
+      }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
+      margin: 60px auto;
+      padding: 24px;
+    }
+
+    .hero {
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+
+      background: var(--glass);
+      border: 1px solid var(--border);
+
+      border-radius: 36px;
+      padding: 56px;
+      box-shadow: var(--shadow);
+
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          120deg,
+          rgba(255,255,255,0.15),
+          transparent 30%,
+          transparent 70%,
+          rgba(255,255,255,0.08)
+        );
+
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 10px 18px;
+
+      border-radius: 999px;
+
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+
+      font-size: 14px;
+      color: var(--muted);
+
+      margin-bottom: 24px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #57ff9a;
+
+      box-shadow: 0 0 20px #57ff9a;
     }
 
     h1 {
-      color: #111;
+      font-size: clamp(42px, 7vw, 72px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin-bottom: 28px;
+    }
+
+    .subtitle {
+      font-size: 20px;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 760px;
+      margin-bottom: 40px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+      margin-top: 20px;
+    }
+
+    .card {
+      position: relative;
+
+      padding: 28px;
+
+      border-radius: 28px;
+
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      transition: 0.35s ease;
+
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      background: rgba(255,255,255,0.11);
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.10),
+          transparent 45%
+        );
+
+      pointer-events: none;
+    }
+
+    .icon {
+      width: 58px;
+      height: 58px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 18px;
+
+      background: rgba(255,255,255,0.12);
+
+      font-size: 28px;
+
+      margin-bottom: 18px;
     }
 
     h2 {
-      margin-top: 30px;
+      font-size: 22px;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+
+    p,
+    li {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    .footer {
+      margin-top: 34px;
+
+      padding: 24px 28px;
+
+      border-radius: 24px;
+
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+
+      backdrop-filter: blur(20px);
     }
 
     .contact {
-      margin-top: 30px;
-      padding: 15px;
-      background: #f5f5f5;
-      border-radius: 8px;
+      font-size: 17px;
+      color: var(--text);
+    }
+
+    .email {
+      color: #9ddcff;
+      text-decoration: none;
+    }
+
+    .email:hover {
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 32px;
+        border-radius: 28px;
+      }
+
+      h1 {
+        font-size: 46px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+      }
     }
   </style>
 </head>
+
 <body>
-  <h1>Child Safety Standards</h1>
 
-  <p>
-    Our application has zero tolerance for child sexual abuse and exploitation (CSAE).
-  </p>
+  <div class="blur one"></div>
+  <div class="blur two"></div>
 
-  <h2>Prohibited Content and Behavior</h2>
+  <div class="container">
 
-  <p>The following are strictly prohibited on our platform:</p>
+    <section class="hero">
 
-  <ul>
-    <li>Child sexual abuse material (CSAM)</li>
-    <li>Any sexual content involving minors</li>
-    <li>Child exploitation or trafficking</li>
-    <li>Grooming or predatory behavior</li>
-    <li>Harassment or abuse targeting minors</li>
-  </ul>
+      <div class="badge">
+        <span class="dot"></span>
+        Child Protection Policy
+      </div>
 
-  <h2>Enforcement</h2>
+      <h1>
+        Zero Tolerance<br />
+        for Child Exploitation
+      </h1>
 
-  <p>
-    Any violation of these standards may result in immediate account suspension,
-    content removal, and reporting to relevant law enforcement authorities.
-  </p>
+      <p class="subtitle">
+        Our platform is committed to maintaining a safe environment for all users.
+        We strictly prohibit any form of child sexual abuse, exploitation,
+        grooming, trafficking, or harmful behavior involving minors.
+      </p>
 
-  <h2>Reporting</h2>
+      <div class="grid">
 
-  <p>
-    Users can report inappropriate behavior or content through our support contact.
-    We review reports promptly and take appropriate action.
-  </p>
+        <div class="card">
+          <div class="icon">🛡️</div>
 
-  <h2>Compliance</h2>
+          <h2>Strict Protection</h2>
 
-  <p>
-    We comply with applicable child safety laws and Google Play policies regarding
-    child safety and prevention of child sexual abuse and exploitation.
-  </p>
+          <p>
+            Any content or behavior related to child sexual abuse material
+            (CSAM) or exploitation is permanently prohibited.
+          </p>
+        </div>
 
-  <div class="contact">
-    <strong>Contact:</strong><br />
-    konstantin.v.modin@gmail.com
+        <div class="card">
+          <div class="icon">🚫</div>
+
+          <h2>Immediate Enforcement</h2>
+
+          <p>
+            Violations may result in immediate account suspension,
+            content removal, and reporting to appropriate authorities.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">📩</div>
+
+          <h2>Fast Reporting</h2>
+
+          <p>
+            Users can report suspicious or inappropriate activity directly
+            through our support contact for prompt review.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">⚖️</div>
+
+          <h2>Policy Compliance</h2>
+
+          <p>
+            We comply with applicable child safety laws and Google Play
+            Developer Policies regarding child protection.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="footer">
+        <div class="contact">
+          Contact:
+          <a class="email" href="mailto:support@yourapp.com">
+             konstantin.v.modin@gmail.com
+          </a>
+        </div>
+      </div>
+
+    </section>
+
   </div>
+
 </body>
-</html>
-
-
+</html>   
